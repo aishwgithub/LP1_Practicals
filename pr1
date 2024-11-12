@@ -1,0 +1,82 @@
+//*create collection********
+
+use data
+
+db
+
+db.createCollection("pr")
+
+db.pr.insert({name:"rutuja",age:20})
+
+db.pr.insertMany([
+  {name:"payal",age:21},
+  {name:"mega",age:22},
+  {name:"puja",age:23},
+  {name:"payal1",age:24}
+  ])
+  //insert************************
+db.pr.insert({name:"reshma",age:25,address:{city:"sangli",street:"ravet road"}})
+
+db.pr.insert({name:"reshma1",age:25,hob:["play","sport","running"]})
+
+//display********************
+db.pr.find().pretty()
+
+db
+//update**********
+db.pr.update({name:"reshma1"},{$set:{age:20}})
+db.pr.update({name:"reshma"},{$unset:{address:{city:"sangli",street:"ravet road"}}})
+db.pr.update({name:"reshma1"},{$unset:{hob:["play","sport","running"]}})
+db.pr.find().pretty()
+
+//**functions
+
+db.pr.find().limit(2)
+db.pr.find().limit(5)
+
+db.pr.find().count()//no of doc
+
+db.pr.find().skip(2)
+db
+db.pr.find().sort({name:1})//ase
+db
+db.pr.find().sort({name:-1})//des
+
+db.pr.findOne()//first data
+
+db.pr.findOne({name:"payal"})
+
+db
+//*conditional queries*********
+db.pr.find({age:{$gt:24}}).pretty()
+db.pr.find({age:{$lt:23}}).pretty()
+
+
+
+//*null********
+db.pr.update({name:"reshma1"},{$unset:{age:20}})
+db.pr.find({age:{$eq:null}}).pretty()
+
+//not or**********
+db.pr.find({age:{$not:{$gt:20}}})
+db
+db.pr.find({
+  $or:[
+    {age:20},
+    {name:"mega"}
+    ]
+}
+  )
+
+
+//delete*********************
+
+db.pr.remove({name:"reshma1"})
+
+db.pr.remove({})
+
+db.pr.find()
+show collections
+
+db.pr.drop()
+show collections
