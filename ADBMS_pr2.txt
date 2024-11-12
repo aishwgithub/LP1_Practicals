@@ -1,0 +1,116 @@
+*************indexing***************
+db.createCollection("rutu")
+show collections
+db.rutuja.insert([{name:"payal",age:19},
+                   {name:"puja",age:20},
+                   {name:"rani",age:21},
+                   {name:"pallavi",age:25},
+                   {name:"prerna",age:19}
+                   ])
+
+db.rutuja.find()
+db.rutuja.createIndex({name:1})
+db.rutuja.createIndex({age:1})
+db.rutuja.getIndexes()
+
+db.rutuja.dropIndex({name:1})
+db.rutuja.getIndexes()
+***********************aggregation**************
+db.createCollection("pr")
+
+show collections
+
+db.pr.insert([
+    {
+        name: "Emily Clark",
+        age: 19,
+        city: "Delhi",
+        course: "Chemistry"
+    },
+    {
+        name: "Rajesh Kumar",
+        age: 23,
+        city: "Bangalore",
+        course: "Mechanical Engineering"
+    },
+    {
+        name: "Priya Singh",
+        age: 21,
+        city: "Delhi",
+        course: "Electrical Engineering"
+    },
+    {
+        name: "Amit Patel",
+        age: 20,
+        city: "Ahmedabad",
+        course: "Civil Engineering"
+    },
+    {
+        name: "Sara Khan",
+        age: 22,
+        city: "Hyderabad",
+        course: "Biotechnology"
+    },
+    {
+        name: "Vikram Das",
+        age: 24,
+        city: "Delhi",
+        course: "Information Technology"
+    }
+]);
+
+db.pr.find()
+
+db.pr.aggregate([{$match:{city:"Delhi"}}])
+
+
+db.pr.aggregate([{$match:{age:{$gt:20}}}])
+
+db.pr.aggregate([{$match:{city:"Delhi",age:{$eq:21}}}])
+
+*******************map reduce**************
+db.createCollection("pr")
+
+show collections
+
+db.pr.insert([
+    { name: "John Doe", marks: 85, course: "Computer Science" },
+    { name: "Jane Smith", marks: 90, course: "Mathematics" },
+    { name: "Mike Johnson", marks: 78, course: "Physics" },
+    { name: "Emily Clark", marks: 88, course: "Chemistry" },
+    { name: "Rajesh Kumar", marks: 75, course: "Computer Science" },
+    { name: "Priya Singh", marks: 82, course: "Mathematics" }
+]);
+
+var mapFunction = function() {
+    emit(this.course, this.marks);
+};
+
+var reduceFunction = function(course, marks) {
+    return Array.sum(marks);
+};
+
+db.pr.mapReduce(
+    mapFunction,
+    reduceFunction,
+    { out: "total_marks_per_course" }
+);
+
+db.total_marks_per_course.find().pretty();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
