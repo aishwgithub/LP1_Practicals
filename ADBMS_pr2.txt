@@ -15,6 +15,8 @@ db.rutuja.getIndexes()
 
 db.rutuja.dropIndex({name:1})
 db.rutuja.getIndexes()
+ db.rutuja.createIndex({name:1,age:1})
+ db.rutuja.getIndexes()
 ***********************aggregation**************
 db.createCollection("pr")
 
@@ -58,7 +60,9 @@ db.pr.insert([
         course: "Information Technology"
     }
 ]);
-
+ db.pr.aggregate([{$group:{_id:"$age",names:{$push:"$name"}}}])
+ db.pr.aggregate([{$group:{_id:"$age",all:{$push:"$$ROOT"}}}])
+ db.pr.aggregate([{$match:{course:'Chemistry'}},{$group:{_id:"$age",number:{$sum:1}}}])
 db.pr.find()
 
 db.pr.aggregate([{$match:{city:"Delhi"}}])
